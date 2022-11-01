@@ -1,5 +1,17 @@
 # Bluelog
 
+> 此版本为Mz1在bluelog的基础上进行修改的版本。
+>
+> email: mzi_mzi@qq.com
+
+
+
+
+
+**以下是原项目的readme内容**
+
+<hr />
+
 *A blue blog.*
 
 > Example application for *[Python Web Development with Flask](https://helloflask.com/en/book/1)* (《[Flask Web 开发实战](https://helloflask.com/book/1)》).
