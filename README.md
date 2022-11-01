@@ -4,6 +4,43 @@
 >
 > email: mzi_mzi@qq.com
 
+## Deployment
+
+### for release 正式环境
+
+(反向代理啥的自己接一下)
+
+先生成数据库文件再初始化用户名密码，再启动(非正规，之后再修，勉强能用)：
+
+```
+$ flask initdb
+$ flask init
+Username: Mz1
+Password:
+Repeat for confirmation:
+Initializing the database...
+Creating the temporary administrator account...
+Creating the default category...
+Done.
+$ export FLASK_ENV=production
+$ flask run --host=0.0.0.0 --port=9999
+```
+
+如果之前进行过配置，可以直接通过run.sh启动。
+
+
+
+### for debug 测试环境
+
+参考下方生成fake data并运行的方式
+
+```
+$ flask forge
+$ flask run
+```
+
+
+
 
 
 
