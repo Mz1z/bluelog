@@ -29,7 +29,9 @@
         <div class="col-sm-8">
             {{ post.body|safe }}
             <hr>
-            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".postLinkModal">Share
+            <!-- 点击直接获取浏览器url -->
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".postLinkModal"
+            	onclick="$('#share_url').attr('value',window.location.href);">Share
             </button>
             <div class="modal fade postLinkModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
                  aria-hidden="true">
@@ -43,8 +45,11 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <input type="text" class="form-control"
-                                       value="{{ url_for('.show_post', post_id=post.id, _external=True) }}" readonly>
+                            	<!-- share url -->
+                                <!-- <input type="text" class="form-control"
+                                       value="{{ url_for('.show_post', post_id=post.id, _external=True) }}" readonly> -->
+                                <input id="share_url" type="text" class="form-control"
+                                       value="" readonly>
                             </div>
                         </div>
                     </div>
