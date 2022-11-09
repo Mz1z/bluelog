@@ -7,6 +7,7 @@
 """
 import os
 import sys
+import uuid
 
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
@@ -19,7 +20,8 @@ else:
 
 
 class BaseConfig(object):
-    SECRET_KEY = os.getenv('SECRET_KEY', 'dev key')
+    # SECRET_KEY = os.getenv('SECRET_KEY', 'dev key')
+    SECRET_KEY = os.getenv('SECRET_KEY', str(uuid.uuid4()))   # use random key
 
     DEBUG_TB_INTERCEPT_REDIRECTS = False
 
