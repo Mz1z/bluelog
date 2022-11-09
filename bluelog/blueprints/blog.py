@@ -10,7 +10,7 @@ from flask_login import current_user
 
 from bluelog.emails import send_new_comment_email, send_new_reply_email
 from bluelog.extensions import db
-from bluelog.forms import CommentForm, AdminCommentForm
+from bluelog.forms import CommentForm, AdminCommentForm, SearchForm
 from bluelog.models import Post, Category, Comment
 from bluelog.utils import redirect_back
 
@@ -29,6 +29,24 @@ def index():
 @blog_bp.route('/about')
 def about():
     return render_template('blog/about.html')
+    
+
+# 搜索页面
+@blog_bp.route('/search', methods=['GET', 'POST'])
+def search():
+	form = SearchForm()
+	if form.validate_on_submit():
+		keyword = form.keyword.data  # 获取表单关键词
+		# 搜索并处理
+		page = request.args.get('page', 1, type=int)
+		per_page = current_app.config['BLUELOG_POST_PER_PAGE']
+		pagination = Post.query.filter(Post.title.like('%{keyword}%'.format(keyword=keyword))).order_by(Post.timestamp.desc()).paginate(page, per_page=per_page)
+		posts = pagination.items
+		return render_template('blog/search.html', form=form, keyword=keyword,
+								pagination=pagination, posts=posts)
+		
+	return render_template('blog/search.html', form=form)
+		
 
 
 @blog_bp.route('/category/<int:category_id>')
