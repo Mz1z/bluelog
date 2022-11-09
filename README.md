@@ -4,6 +4,13 @@
 >
 > email: mzi_mzi@qq.com
 
+## 准备的更新
+
+1. 增加访问统计（log）原版本的log好像没有实装
+2. 在settings中增加更换网站图标的功能
+
+
+
 ## Deployment
 
 ### for release 正式环境
