@@ -65,6 +65,10 @@
                             </div>
                         </li>
                         {{ render_nav_item('admin.settings', 'Settings') }}
+                        {{ render_nav_item('auth.logout', 'Logout') }}
+                    {% else %}
+                    	{# move login button to top #}
+                    	{{ render_nav_item('auth.login', 'Login') }}
                     {% endif %}
                 </ul>
             </div>
@@ -85,16 +89,19 @@
             <p class="float-left">
                 <small> &copy; 2022 <a href="http://blog.mz1.top" title="Mz1">Mz1</a> -
                 	<a href="https://github.com/Mz1z/bluelog">Github</a> -
-                    <a href="https://github.com/greyli/bluelog" title="Origin Project">Origin Project by Grey Li</a>
+                    <a href="https://github.com/greyli/bluelog" title="Origin Project">Origin by Grey Li</a>
                 </small>
             </p>
             <p class="float-right">
                 <small>
+                	{#
                     {% if current_user.is_authenticated %}
                         <a href="{{ url_for('auth.logout', next=request.full_path) }}">Logout</a>
                     {% else %}
                         <a href="{{ url_for('auth.login', next=request.full_path) }}">Login</a>
                     {% endif %}
+                    #}
+                    Powered by WhiteAlbum2
                 </small>
             </p>
         </footer>
