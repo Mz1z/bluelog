@@ -62,8 +62,14 @@ def new_post():
         # post = Post(title=title, body=body, category_id=category_id)
         db.session.add(post)
         db.session.commit()
-        flash('Post created.', 'success')
-        return redirect(url_for('blog.show_post', post_id=post.id))
+        # Submit直接返回，save的话跳到edit的编辑页面
+        if form.save.data == True:
+            # save
+            flash('Post saved.', 'success')   # 跳转到编辑页面
+            return redirect(url_for('admin.edit_post', post_id=post.id))
+        elif form.submit.data == True:
+            flash('Post created.', 'success')
+            return redirect(url_for('blog.show_post', post_id=post.id))
     return render_template('admin/new_post.html', form=form)
 
 
@@ -77,8 +83,14 @@ def edit_post(post_id):
         post.body = form.body.data
         post.category = Category.query.get(form.category.data)
         db.session.commit()
-        flash('Post updated.', 'success')
-        return redirect(url_for('blog.show_post', post_id=post.id))
+        # Submit直接返回，Save的话跳到编辑页面
+        # print(form.save.data)   # True or False
+        if form.save.data == True:
+            # save
+            flash('Post saved.', 'success') # 跟着最下面返回
+        elif form.submit.data == True:
+            flash('Post updated.', 'success')
+            return redirect(url_for('blog.show_post', post_id=post.id))
     form.title.data = post.title
     form.body.data = post.body
     form.category.data = post.category_id
