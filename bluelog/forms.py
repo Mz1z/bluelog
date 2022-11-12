@@ -73,5 +73,6 @@ class LinkForm(FlaskForm):
     
 # 搜索表单
 class SearchForm(FlaskForm):
-	keyword = StringField('Key words in title or text', validators=[DataRequired(), Length(1, 30)])
-	submit = SubmitField()
+    keyword = StringField('Key words in title or text', validators=[DataRequired(), Length(1, 30)])
+    search_title = SubmitField('Search Title')
+    search_text = SubmitField('Search Text')

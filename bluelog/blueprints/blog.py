@@ -34,19 +34,28 @@ def about():
 # 搜索页面
 @blog_bp.route('/search', methods=['GET', 'POST'])
 def search():
-	form = SearchForm()
-	if form.validate_on_submit():
-		keyword = form.keyword.data  # 获取表单关键词
-		# 搜索并处理
-		page = request.args.get('page', 1, type=int)
-		per_page = current_app.config['BLUELOG_POST_PER_PAGE']
-		pagination = Post.query.filter(Post.title.like('%{keyword}%'.format(keyword=keyword))).order_by(Post.timestamp.desc()).paginate(page, per_page=per_page)
-		posts = pagination.items
-		return render_template('blog/search.html', form=form, keyword=keyword,
-								pagination=pagination, posts=posts)
-		
-	return render_template('blog/search.html', form=form)
-		
+    form = SearchForm()
+    if form.validate_on_submit():
+        keyword = form.keyword.data  # 获取表单关键词
+        # 搜索并处理
+        page = request.args.get('page', 1, type=int)
+        per_page = current_app.config['BLUELOG_POST_PER_PAGE']
+        
+        # 判断是搜索标题还是搜索内容
+        if form.search_title.data == True:
+            pagination = Post.query.filter(
+                    (Post.title.ilike('%{keyword}%'.format(keyword=keyword)))
+                ).order_by(Post.timestamp.desc()).paginate(page, per_page=per_page)
+        elif form.search_text.data == True:
+            pagination = Post.query.filter(
+                    (Post.body.ilike('%{keyword}%'.format(keyword=keyword)))
+                ).order_by(Post.timestamp.desc()).paginate(page, per_page=per_page)
+        posts = pagination.items
+        return render_template('blog/search.html', form=form, keyword=keyword,
+                                pagination=pagination, posts=posts)
+        
+    return render_template('blog/search.html', form=form)
+        
 
 
 @blog_bp.route('/category/<int:category_id>')
