@@ -6,6 +6,7 @@
     :license: MIT, see LICENSE for more details.
 """
 import os
+import time
 
 from flask import render_template, flash, redirect, url_for, request, current_app, Blueprint, send_from_directory
 from flask_login import login_required, current_user
@@ -261,11 +262,16 @@ def get_image(filename):
     return send_from_directory(current_app.config['BLUELOG_UPLOAD_PATH'], filename)
 
 
+# 登录后才能上传
 @admin_bp.route('/upload', methods=['POST'])
+@login_required
 def upload_image():
     f = request.files.get('upload')
     if not allowed_file(f.filename):
         return upload_fail('Image only!')
-    f.save(os.path.join(current_app.config['BLUELOG_UPLOAD_PATH'], f.filename))
-    url = url_for('.get_image', filename=f.filename)
-    return upload_success(url, f.filename)
+    # 这里需要对文件名进行重新处理，转化成时间戳+后缀名的格式
+    _ext = f.filename.rsplit('.', 1)[1].lower()   # 取后缀名
+    _fname = str(int(time.time())) + '.' + _ext    # 拼接新的文件名
+    f.save(os.path.join(current_app.config['BLUELOG_UPLOAD_PATH'], _fname))
+    url = url_for('.get_image', filename=_fname)
+    return upload_success(url, _fname)
