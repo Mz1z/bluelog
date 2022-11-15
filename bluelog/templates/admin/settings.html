@@ -27,4 +27,5 @@
     {{ super() }}
     <script type="text/javascript" src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
     {{ ckeditor.config(name='about') }}
+    {{ ckeditor.load_code_theme() }}
 {% endblock %}

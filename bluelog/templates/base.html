@@ -114,6 +114,10 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
     {{ moment.include_moment(local_js=url_for('static', filename='js/moment-with-locales.min.js')) }}
+    {# 代码高亮测试 #}
+    <link rel="stylesheet" href="{{ url_for('static', filename='highlight/styles/default.min.css') }}" type="text/css">
+    <script type="text/javascript" src="{{ url_for('static', filename='highlight/highlight.min.js') }}"></script>
+    <script>hljs.highlightAll();</script>
 {% endblock %}
 </body>
 </html>
