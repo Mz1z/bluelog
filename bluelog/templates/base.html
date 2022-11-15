@@ -115,9 +115,9 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
     {{ moment.include_moment(local_js=url_for('static', filename='js/moment-with-locales.min.js')) }}
     {# 代码高亮测试 #}
-    <link rel="stylesheet" href="{{ url_for('static', filename='ckeditor/plugins/codesnippet/lib/highlight/styles/default.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='ckeditor/plugins/codesnippet/lib/highlight/styles/github.css') }}" type="text/css">
     <script type="text/javascript" src="{{ url_for('static', filename='ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js') }}"></script>
-    <script>hljs.highlightAll();</script>
+    <script>hljs.initHighlightingOnLoad();</script>
 {% endblock %}
 </body>
 </html>

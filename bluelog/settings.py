@@ -30,6 +30,7 @@ class BaseConfig(object):
 
     CKEDITOR_ENABLE_CSRF = True
     CKEDITOR_FILE_UPLOADER = 'admin.upload_image'
+    CKEDITOR_CODE_THEME = 'github'   # code snippet设置主题
 
     MAIL_SERVER = os.getenv('MAIL_SERVER')
     MAIL_PORT = 465
