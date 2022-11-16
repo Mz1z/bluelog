@@ -8,22 +8,32 @@
     </div>
     <div class="row">
         <div class="col-sm-8">
-			{# 下面这段代码是暂时的...过于混沌...不忍直视了已经 #}
-			<script>
-				function count_words(){
-					var words = 0;
-					{% for post in posts %}
-						words += {{ post.body|striptags|length }};
-					{% endfor %}
-					$("#words").html("All Words: " + words);
-				}
-				window.onload=count_words;
-			</script>
-            <h4 id="words">All Words: 0</h4>
+			{% set allwords=[] %}
+			{% for post in posts %}
+				{% set _tmp = (post.body|striptags|length)|int %}
+				{# 用数组来统计 #}
+				{% set _ = allwords.append(_tmp) %}
+			{% endfor %}
+            <h4>All Words: {{ allwords|sum }}</h4>
             
             {# 下面是admin可见部分 #}
             {% if current_user.is_authenticated %}
 				<hr/>
+				{# 分类别统计字数 #}
+				{% set categories_count = {} %}{# 字典 #}
+				{% for post in posts %}
+					{% set _tmp = (post.body|striptags|length)|int %}
+					{% set _category = post.category.name %}
+					{% if _category in categories_count %}
+						{% set _ = categories_count.update({_category:categories_count[_category]+_tmp})%}
+					{% else %}
+						{% set _ = categories_count.update({_category:_tmp}) %}
+					{% endif %}
+				{% endfor %}
+				{# 统计完毕 #}
+				{% for category in categories_count %}
+					<h5>{{category}}: {{ categories_count[category] }}</h5>
+				{% endfor %}
             {% endif %}
         </div>
         <div class="col-sm-4 sidebar">
