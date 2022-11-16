@@ -64,6 +64,7 @@
                                 <a class="dropdown-item" href="{{ url_for('admin.manage_link') }}">Link</a>
                             </div>
                         </li>
+                        {{ render_nav_item('admin.statistics', 'Statistics') }}
                         {{ render_nav_item('admin.settings', 'Settings') }}
                         {{ render_nav_item('auth.logout', 'Logout') }}
                     {% else %}

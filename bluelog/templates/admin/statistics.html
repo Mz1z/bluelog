@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Statistics{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Statistics</h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-8">
+			{# 下面这段代码是暂时的...过于混沌...不忍直视了已经 #}
+			<script>
+				function count_words(){
+					var words = 0;
+					{% for post in posts %}
+						words += {{ post.body|striptags|length }};
+					{% endfor %}
+					$("#words").html("All Words: " + words);
+				}
+				window.onload=count_words;
+			</script>
+            <h4 id="words">All Words: 0</h4>
+            
+        </div>
+        <div class="col-sm-4 sidebar">
+            {% include "blog/_sidebar.html" %}
+        </div>
+    </div>
+{% endblock %}

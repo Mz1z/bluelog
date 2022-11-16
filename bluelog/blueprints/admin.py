@@ -37,6 +37,15 @@ def settings():
     form.blog_sub_title.data = current_user.blog_sub_title
     form.about.data = current_user.about
     return render_template('admin/settings.html', form=form)
+    
+# 数据统计页面
+# 暂时先这么写，不太好弄
+@admin_bp.route('/statistics')
+@login_required
+def statistics():
+	# 统计总字数
+	posts = Post.query.all()
+	return render_template('admin/statistics.html', posts=posts)
 
 
 @admin_bp.route('/post/manage')
