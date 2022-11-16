@@ -21,6 +21,10 @@
 			</script>
             <h4 id="words">All Words: 0</h4>
             
+            {# 下面是admin可见部分 #}
+            {% if current_user.is_authenticated %}
+				<hr/>
+            {% endif %}
         </div>
         <div class="col-sm-4 sidebar">
             {% include "blog/_sidebar.html" %}

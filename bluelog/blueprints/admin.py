@@ -41,7 +41,6 @@ def settings():
 # 数据统计页面
 # 暂时先这么写，不太好弄
 @admin_bp.route('/statistics')
-@login_required
 def statistics():
 	# 统计总字数
 	posts = Post.query.all()

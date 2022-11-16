@@ -27,6 +27,7 @@
                     {{ render_nav_item('blog.index', 'Home') }}
                     {{ render_nav_item('blog.about', 'About') }}
                     {{ render_nav_item('blog.search', 'Search') }}
+                    {{ render_nav_item('admin.statistics', 'Statistics') }}
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
@@ -64,7 +65,6 @@
                                 <a class="dropdown-item" href="{{ url_for('admin.manage_link') }}">Link</a>
                             </div>
                         </li>
-                        {{ render_nav_item('admin.statistics', 'Statistics') }}
                         {{ render_nav_item('admin.settings', 'Settings') }}
                         {{ render_nav_item('auth.logout', 'Logout') }}
                     {% else %}
