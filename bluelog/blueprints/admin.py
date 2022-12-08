@@ -17,6 +17,8 @@ from bluelog.forms import SettingForm, PostForm, CategoryForm, LinkForm
 from bluelog.models import Post, Category, Comment, Link
 from bluelog.utils import redirect_back, allowed_file
 
+from bluelog.MzUtils import backup_zip
+
 admin_bp = Blueprint('admin', __name__)
 
 
@@ -45,6 +47,18 @@ def statistics():
 	# 统计总字数
 	posts = Post.query.all()
 	return render_template('admin/statistics.html', posts=posts)
+	
+# 备份功能
+@admin_bp.route('/backup')
+@login_required
+def backup_data():
+	# 打包
+	backup_zip(
+		upload_dir = current_app.config['BLUELOG_UPLOAD_PATH'],
+		db_file = current_app.config['BLUELOG_UPLOAD_PATH'] + '/../data-dev.db',
+		backup_file = current_app.config['BLUELOG_UPLOAD_PATH'] + '/../bak.zip'
+	)
+	return send_from_directory(current_app.config['BLUELOG_UPLOAD_PATH']+'/..', 'bak.zip')
 
 
 @admin_bp.route('/post/manage')
