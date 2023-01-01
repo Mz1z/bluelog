@@ -49,6 +49,7 @@ class BaseConfig(object):
 		'black_swan': 'Black Swan',
 		'cyborg': 'Cyborg',
 		'morph': 'Morph',
+		'cerulean': 'Cerulean',
 	}
     BLUELOG_SLOW_QUERY_THRESHOLD = 1
 
