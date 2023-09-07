@@ -22,6 +22,8 @@ from bluelog.extensions import bootstrap, db, login_manager, csrf, ckeditor, mai
 from bluelog.models import Admin, Post, Category, Comment, Link
 from bluelog.settings import config
 
+from bluelog.log import MzLog    # 访问日志记录模块
+
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 def create_app(config_name=None):
@@ -143,6 +145,7 @@ def register_commands(app):
             db.drop_all()
             click.echo('Drop tables.')
         db.create_all()
+        MzLog.initdb() # 创建log数据库
         click.echo('Initialized database.')
 
     @app.cli.command()
