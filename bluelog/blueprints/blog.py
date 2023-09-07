@@ -14,6 +14,8 @@ from bluelog.forms import CommentForm, AdminCommentForm, SearchForm
 from bluelog.models import Post, Category, Comment
 from bluelog.utils import redirect_back
 
+from bluelog.log import MzLog
+
 blog_bp = Blueprint('blog', __name__)
 
 
@@ -110,6 +112,11 @@ def show_post(post_id):
             flash('Thanks, your comment will be published after reviewed.', 'info')
             send_new_comment_email(post)  # send notification email to admin
         return redirect(url_for('.show_post', post_id=post_id))
+    MzLog.view_log(
+        ip=request.headers.get('X-Real-Ip', request.remote_addr), 
+        post_id=post.id, 
+        user_agent=request.headers.get("User-Agent", "unknown")
+    )   # 记录页面访问日志
     return render_template('blog/post.html', post=post, pagination=pagination, form=form, comments=comments)
 
 

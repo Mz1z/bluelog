@@ -67,4 +67,4 @@ class MzLog():
 # 测试
 if __name__ == '__main__':
 	MzLog.init_db()
-	print(MzLog.view_log(ip='192.168.56.101', post_id=1, user_agent="Chrome"))
+	# print(MzLog.view_log(ip='192.168.56.101', post_id=1, user_agent="Chrome"))

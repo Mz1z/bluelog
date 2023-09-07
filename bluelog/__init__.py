@@ -145,7 +145,7 @@ def register_commands(app):
             db.drop_all()
             click.echo('Drop tables.')
         db.create_all()
-        MzLog.initdb() # 创建log数据库
+        MzLog.init_db() # 创建log数据库
         click.echo('Initialized database.')
 
     @app.cli.command()
