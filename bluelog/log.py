@@ -62,9 +62,23 @@ class MzLog():
 		conn.close()
 		return True
 
+	# 获取访问记录
+	@staticmethod
+	def get_post_view_count(post_id):
+		conn = sqlite3.connect(MzLog.LOG_DB)
+		c = conn.cursor()
+		c.execute('''
+			SELECT count(*) FROM log WHERE post_id=?;
+		''', (post_id, ))
+		ret = c.fetchone()[0]
+		conn.close()
+		return ret
+
+
 
 
 # 测试
 if __name__ == '__main__':
-	MzLog.init_db()
+	# MzLog.init_db()
 	# print(MzLog.view_log(ip='192.168.56.101', post_id=1, user_agent="Chrome"))
+	print(MzLog.get_post_view_count(61));

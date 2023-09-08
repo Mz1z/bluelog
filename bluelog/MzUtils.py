@@ -4,9 +4,11 @@ import zipfile
 from io import BytesIO
 from PIL import Image
 
+from bluelog.log import MzLog
+
 # 打包压缩函数
-# 压缩uploads和data-dev.db
-def backup_zip(upload_dir='../uploads',db_file='../data-dev.db', backup_file='bak.zip'):
+# 压缩uploads和data-dev.db和log.db
+def backup_zip(upload_dir='../uploads',db_file='../data-dev.db', log_db_file=MzLog.LOG_DB, backup_file='bak.zip'):
 	f = zipfile.ZipFile(backup_file, 'w')
 	for item in os.listdir(upload_dir):
 		if item == '.gitkeep':
@@ -15,6 +17,7 @@ def backup_zip(upload_dir='../uploads',db_file='../data-dev.db', backup_file='ba
 		arcname = 'uploads' + os.sep + item
 		f.write(file_path, arcname)
 	f.write(db_file, 'data-dev.db')
+	f.write(log_db_file, 'logs' + os.sep +'log.db')
 	f.close()
 	
 # 压缩图片函数，减轻网络压力
