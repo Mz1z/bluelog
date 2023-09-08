@@ -117,7 +117,10 @@ def show_post(post_id):
         post_id=post.id, 
         user_agent=request.headers.get("User-Agent", "unknown")
     )   # 记录页面访问日志
-    return render_template('blog/post.html', post=post, pagination=pagination, form=form, comments=comments)
+    view_count = MzLog.get_post_view_count(post.id)   # 获取之前的访问记录次数
+    return render_template('blog/post.html', 
+        post=post, pagination=pagination, form=form, comments=comments, 
+        view_count=view_count)
 
 
 @blog_bp.route('/reply/comment/<int:comment_id>')

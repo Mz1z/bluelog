@@ -15,6 +15,7 @@
 				{% set _ = allwords.append(_tmp) %}
 			{% endfor %}
             <h4>All Words: {{ allwords|sum }}</h4>
+            <h4>All View Count: {{ all_view_count }} times</h4>
             
             {# 下面是admin可见部分 #}
             {% if current_user.is_authenticated %}

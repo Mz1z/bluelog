@@ -18,6 +18,7 @@ from bluelog.models import Post, Category, Comment, Link
 from bluelog.utils import redirect_back, allowed_file
 
 from bluelog.MzUtils import backup_zip, compress_image
+from bluelog.log import MzLog
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -46,7 +47,8 @@ def settings():
 def statistics():
 	# 统计总字数
 	posts = Post.query.all()
-	return render_template('admin/statistics.html', posts=posts)
+	all_view_count = MzLog.get_all_view_count()
+	return render_template('admin/statistics.html', posts=posts, all_view_count=all_view_count)
 	
 # 备份功能
 @admin_bp.route('/backup')
