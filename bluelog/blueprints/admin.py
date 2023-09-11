@@ -17,7 +17,7 @@ from bluelog.forms import SettingForm, PostForm, CategoryForm, LinkForm
 from bluelog.models import Post, Category, Comment, Link
 from bluelog.utils import redirect_back, allowed_file
 
-from bluelog.MzUtils import backup_zip, compress_image
+from bluelog.MzUtils import backup_zip, compress_image, ip2location
 from bluelog.log import MzLog
 
 admin_bp = Blueprint('admin', __name__)
@@ -48,7 +48,15 @@ def statistics():
 	# 统计总字数
 	posts = Post.query.all()
 	all_view_count = MzLog.get_all_view_count()
-	return render_template('admin/statistics.html', posts=posts, all_view_count=all_view_count)
+	# 获取最近的访问记录
+	page = int(request.args.get("page", 0)) if int(request.args.get("page", 0)) >= 0 else 0
+	records = MzLog.get_records(
+		n=5,
+		offset=page*5
+		)
+	return render_template('admin/statistics.html', 
+		posts=posts, all_view_count=all_view_count, records=records,
+		ip2location=ip2location, page=page)
 	
 # 备份功能
 @admin_bp.route('/backup')
@@ -61,6 +69,12 @@ def backup_data():
 		backup_file = current_app.config['BLUELOG_UPLOAD_PATH'] + '/../bak.zip'
 	)
 	return send_from_directory(current_app.config['BLUELOG_UPLOAD_PATH']+'/..', 'bak.zip')
+
+# ip属地接口，直接返回字符串
+@admin_bp.route('/ip_query/<ip>')
+@login_required
+def ip_query(ip):
+	return ip2location(ip)
 
 
 @admin_bp.route('/post/manage')

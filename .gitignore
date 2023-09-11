@@ -114,3 +114,5 @@ uploads/*
 !uploads/.gitkeep
 bak.zip
 backup.zip
+
+test.py

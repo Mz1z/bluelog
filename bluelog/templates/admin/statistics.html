@@ -35,6 +35,33 @@
 				{% for category in categories_count %}
 					<h5>{{category}}: {{ categories_count[category] }}</h5>
 				{% endfor %}
+				<hr/>
+				{# 显示最近期间访问的20条记录 #}
+				<table class="table table-striped">
+				    <thead>
+				    <tr>
+				    	<th>log_id</th>
+				        <th>ip</th>
+				        <th>UA</th>
+				        <th>post_id</th>
+				        <th>time</th>
+				        <th>info</th>
+				    </tr>
+				    </thead>
+				    {% for record in records %}
+				    <tr>
+				    	<td>{{ record[0] }}</td>
+				        <td>{{ record[1] }}</td>
+				        <td>{{ record[2] }}</td>
+				        <td><a href="{{ url_for('blog.show_post', post_id=record[3]) }}">{{ record[3] }}</a></td>
+				        <td>{{ record[4] }}</td>
+				        <td>{{ ip2location(record[1]) }}</td>
+				    </tr>
+				    {% endfor %}
+				</table>
+				<a class="btn btn-primary btn-sm" href="{{ url_for('.statistics', page=page-1) }}">Previous</a>
+				<a class="btn btn-primary btn-sm" href="{{ url_for('.statistics', page=page+1) }}">Next</a>
+
             {% endif %}
         </div>
         <div class="col-sm-4 sidebar">

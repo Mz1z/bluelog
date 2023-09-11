@@ -4,6 +4,10 @@ import zipfile
 from io import BytesIO
 from PIL import Image
 
+import requests
+import re
+import json
+
 from bluelog.log import MzLog
 
 # 打包压缩函数
@@ -50,6 +54,32 @@ def compress_image(infile, mb=500, step=10, quality=80):
 		# print(f'  > 压缩至大小：{o_size} quality: {quality}')
 		quality -= step   # 质量递减
 	return _imgbytes
+
+# 利用https://www.ipshudi.com/的接口进行ip属地和rDNS查询
+def ip2location(ip):
+	url = f"https://www.ipshudi.com/{ip}.htm"
+	headers = {
+		"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.199 Safari/537.36",
+		"Referer": "https://www.ip138.com/",	
+	}
+	r = requests.get(url, headers=headers)
+	location = re.findall('<td class="th">归属地</td>\s*<td>\s*<span>(.*?)</span', r.text)
+	if len(location) == 0:
+		print(r.text)
+		return False
+	location = location[0]
+	location = re.sub("<a.*?>","",location)
+	location = re.sub("</a>","",location)
+	ret = location.strip() + " "
+	runner = re.findall('<td class="th">运营商</td><td><span>(.*?)</span>', r.text)
+	runner = "" if len(runner) == 0 else runner[0]
+	ret += runner.strip() + " "
+	rdns_url = f"https://rdnsdb.com/api/rdns/?callback=jQuery1111010121005909139513_1694431459034&ip={ip}&_=1694431459035"
+	r = requests.get(rdns_url, headers=headers)
+	rdns = json.loads(re.findall("\((.*?)\)", r.text)[0]) if len(re.findall("\((.*?)\)", r.text)) != 0 else {"status":False}
+	if rdns['status'] == True:
+		ret += rdns['data']['result']
+	return ret
 	
 if __name__ == '__main__':
 	backup_zip()

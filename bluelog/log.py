@@ -86,10 +86,24 @@ class MzLog():
 		conn.close()
 		return ret
 
+	# 获取最近访问的n条数据
+	@staticmethod
+	def get_records(n=5, offset=0):
+		conn = sqlite3.connect(MzLog.LOG_DB)
+		c = conn.cursor()
+		rows = c.execute('''
+			SELECT log_id, ip, user_agent, post_id, datetime(time,'unixepoch','localtime') FROM log ORDER BY time DESC LIMIT ? OFFSET ?;
+		''', (n, offset))
+		ret = []
+		for row in rows:
+			ret.append(row)
+		conn.close()
+		return ret
 
 # 测试
 if __name__ == '__main__':
 	# MzLog.init_db()
 	# print(MzLog.view_log(ip='192.168.56.101', post_id=1, user_agent="Chrome"))
-	print(MzLog.get_post_view_count(60));
-	print(MzLog.get_all_view_count());
+	print(MzLog.get_post_view_count(60))
+	print(MzLog.get_all_view_count())
+	print(MzLog.get_records())
