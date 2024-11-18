@@ -14,4 +14,13 @@
     {{ super() }}
     <script type="text/javascript" src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
     {{ ckeditor.config(name='body') }}
+    {# add exit confirm #}
+    <script type="text/javascript">
+        window.addEventListener("beforeunload", (event) => {
+          // Cancel the event as stated by the standard.
+          event.preventDefault();
+          // Chrome requires returnValue to be set.
+          event.returnValue = "";
+        });
+    </script>
 {% endblock %}

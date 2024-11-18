@@ -32,6 +32,14 @@ class MzLog():
 				time INTERGER NOT NULL
 			);
 		''')
+		c.execute('''
+			CREATE TABLE `ip2loc`(
+				ip_id INTEGER PRIMARY KEY AUTOINCREMENT,
+				ip TEXT NOT NULL,
+				loc_info TEXT NOT NULL,
+				time INTERGER NOT NULL
+			);
+		''')  # this table is not in use until now
 		conn.commit()
 		conn.close()
 	

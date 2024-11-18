@@ -56,6 +56,7 @@ def compress_image(infile, mb=500, step=10, quality=80):
 	return _imgbytes
 
 # 利用https://www.ipshudi.com/的接口进行ip属地和rDNS查询
+# 增加本地缓存功能TODO
 def ip2location(ip):
 	url = f"https://www.ipshudi.com/{ip}.htm"
 	headers = {

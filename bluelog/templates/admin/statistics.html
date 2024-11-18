@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+ {% extends 'base.html' %}
 
 {% block title %}Statistics{% endblock %}
 
@@ -45,7 +45,8 @@
 				        <th>UA</th>
 				        <th>post_id</th>
 				        <th>time</th>
-				        <th>info</th>
+				        {# 暂时不启用ip2location #}
+				        {# <th>info</th> #}
 				    </tr>
 				    </thead>
 				    {% for record in records %}
@@ -55,7 +56,8 @@
 				        <td>{{ record[2] }}</td>
 				        <td><a href="{{ url_for('blog.show_post', post_id=record[3]) }}">{{ record[3] }}</a></td>
 				        <td>{{ record[4] }}</td>
-				        <td>{{ ip2location(record[1]) }}</td>
+
+				        {# <td>{{ ip2location(record[1]) }}</td> #}
 				    </tr>
 				    {% endfor %}
 				</table>

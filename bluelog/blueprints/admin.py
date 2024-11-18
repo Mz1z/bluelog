@@ -51,8 +51,8 @@ def statistics():
 	# 获取最近的访问记录
 	page = int(request.args.get("page", 0)) if int(request.args.get("page", 0)) >= 0 else 0
 	records = MzLog.get_records(
-		n=5,
-		offset=page*5
+		n=10,
+		offset=page*10
 		)
 	return render_template('admin/statistics.html', 
 		posts=posts, all_view_count=all_view_count, records=records,
