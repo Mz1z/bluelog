@@ -16,11 +16,18 @@
     {{ ckeditor.config(name='body') }}
     {# add exit confirm #}
     <script type="text/javascript">
+        // check if the form is submitted
+        var checkFormSubmitted = false;
+        document.querySelector('form.form').addEventListener('submit', function (e) {
+            checkFormSubmitted = true;
+        });
         window.addEventListener("beforeunload", (event) => {
-          // Cancel the event as stated by the standard.
-          event.preventDefault();
-          // Chrome requires returnValue to be set.
-          event.returnValue = "";
+            if (checkFormSubmitted != true){
+                // Cancel the event as stated by the standard.
+                event.preventDefault();
+                // Chrome requires returnValue to be set.
+                event.returnValue = "";
+            }
         });
     </script>
 {% endblock %}
