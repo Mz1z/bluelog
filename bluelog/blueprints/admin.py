@@ -145,6 +145,18 @@ def delete_post(post_id):
 	flash('Post deleted.', 'success')
 	return redirect_back()
 
+@admin_bp.route('/post/<int:post_id>/set-hidden', methods=['POST'])
+@login_required
+def set_hidden(post_id):
+	post = Post.query.get_or_404(post_id)
+	if post.hidden:
+		post.hidden = False
+		flash('Set post unhidden.', 'success')
+	else:
+		post.hidden = True
+		flash('Set post hidden.', 'success')
+	db.session.commit()
+	return redirect_back()
 
 @admin_bp.route('/post/<int:post_id>/set-comment', methods=['POST'])
 @login_required

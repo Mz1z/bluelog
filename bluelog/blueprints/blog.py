@@ -23,7 +23,14 @@ blog_bp = Blueprint('blog', __name__)
 def index():
     page = request.args.get('page', 1, type=int)
     per_page = current_app.config['BLUELOG_POST_PER_PAGE']
-    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(page=page, per_page=per_page)
+    if current_user.is_authenticated:
+        pagination = Post.query.order_by(Post.timestamp.desc()).paginate(page=page, per_page=per_page)
+    else:
+        # only show unhidden posts
+        pagination = Post.query.filter(
+            (Post.hidden==False)
+        ).order_by(Post.timestamp.desc()).paginate(page=page, per_page=per_page)
+    
     posts = pagination.items
     return render_template('blog/index.html', pagination=pagination, posts=posts)
 
@@ -73,6 +80,11 @@ def show_category(category_id):
 @blog_bp.route('/post/<int:post_id>', methods=['GET', 'POST'])
 def show_post(post_id):
     post = Post.query.get_or_404(post_id)
+    if post.hidden == True and not current_user.is_authenticated:
+        # can not see this
+        flash('You are unable to see this post unless you are admin.', 'warning')
+        return redirect(url_for('.index'))
+
     page = request.args.get('page', 1, type=int)
     per_page = current_app.config['BLUELOG_COMMENT_PER_PAGE']
     pagination = Comment.query.with_parent(post).filter_by(reviewed=True).order_by(Comment.timestamp.asc()).paginate(
