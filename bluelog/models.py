@@ -52,6 +52,8 @@ class Post(db.Model):
     can_comment = db.Column(db.Boolean, default=True)
 
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+    # hidden post(Mz1 add)
+    hidden = db.Column(db.Boolean, default=False)
 
     category = db.relationship('Category', back_populates='posts')
     comments = db.relationship('Comment', back_populates='post', cascade='all, delete-orphan')

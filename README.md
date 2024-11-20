@@ -26,29 +26,31 @@
 
 9. 增加编辑页面关闭确认功能（已完成）
 
+
+
+> 注意：Migrate功能暂未更新，谨慎使用。
+
+
+
 ### 重要更新
 
+```
 Flask 1.1.2 -> 3.1.0
-
 flask_login 0.5 ->0.6.3
-
 flask_sqlalchemy 1.3.15->3.1.1
-
 flask_wtf 0.14.3 -> 1.2.2
-
 flask_ckeditor 0.4.6 -> 1.0.0
-
 Bootstrap-Flask-1.2.0 -> 2.4.1
-
 flask_moment 0.9.0 -> 1.0.6
-
 flask_debugtoolbar 0.11.0 -> 0.16.0
-
+Flask-Migrate 2.5.3 -> 4.0.7
 alembic 1.4.2->  1.14.0
-
 watchdog 0.10.2 -> 6.0.0
-
 wtforms 2.2.1->3.2.1
+```
+
+
+db 更新：alter table post add column `hidden` BOOLEAN default 0;
 
 ### 访问记录
 
